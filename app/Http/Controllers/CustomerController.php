@@ -14,7 +14,8 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $customers = Customer::where('id','>=', 0)->pluck('id')->toArray();
+        // $customers = Customer::where('id','>=', 0)->pluck('id')->toArray();
+        $customers = Customer::all()->toArray();
         //return view('welcome')->with('customers', $customers);
         return $customers;
     }
