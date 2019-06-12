@@ -13,7 +13,7 @@
         <!-- Styles -->
         <link rel="stylesheet" href="/css/app.css">
     </head>
-    <body>
+    <body >
     <div id="app">
     </div>
 

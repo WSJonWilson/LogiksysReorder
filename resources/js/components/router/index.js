@@ -3,14 +3,14 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 
-import ExampleComponent from '../../components/ExampleComponent.vue'
+import Reorder from '../../components/Reorder.vue'
 
 export default new Router({
     mode: 'history',
     routes:[
         {
             path: '/',
-            component: ExampleComponent
+            component: Reorder
              
         }
     ]
