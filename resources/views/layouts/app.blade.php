@@ -8,15 +8,16 @@
 
         <title>Laravel</title>
         <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
 
         <!-- Styles -->
         <link rel="stylesheet" href="/css/app.css">
     </head>
-    <body >
+    <body>
+    <div id="">
     <div id="app">
     </div>
-
+    <div>
     <script src="/js/app.js"></script>
     </body>
 
