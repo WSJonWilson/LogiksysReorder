@@ -1,5 +1,13 @@
 <template>
   <div class="body">
+<modal name="hello-world"  
+         :width="400"
+         :height="310"
+         class="modal-body">
+ <div class="header-animation">
+            <lottie :options="defaultOptions" :height="350" :width="350" v-on:animCreated="handleAnimation"/>
+        </div>
+</modal>
     <el-container class="container">
       <b-row>
         <b-col>
@@ -30,7 +38,7 @@
                 </tr>
               </thead>
               <draggable v-model="data" :options="{group:'clothes'}" tag="tbody">
-                <tr v-for="item in data" v-bind:key="item.id">
+                <tr v-for="item in filteredData" v-bind:key="item.id">
                   <td scope="row" class="table-id">{{ item.id }}</td>
                   <td>{{item.first_name}}</td>
                   <td>{{item.last_name}}</td>
@@ -44,6 +52,8 @@
         </div>
         <!-- https://chrishurlburt.github.io/vue-scrollview/examples/dist/#/animation -->
       </div>
+
+
     </el-container>
     <b-container class="bv-example-row container2">
       <b-row>
@@ -51,7 +61,7 @@
           <p class="route-name">*ROUTE TITLE HERE*</p>
         </b-col>
         <b-col>
-          <el-input placeholder="Search...">
+          <el-input v-model="search2" placeholder="Search...">
             <i class="el-icon-search el-input__icon" slot="suffix"></i>
           </el-input>
         </b-col>
@@ -98,7 +108,6 @@
 
 <script>
 import { ElementUI, Button } from "element-ui";
-
 import "element-ui/lib/theme-chalk/index.css";
 import draggable from "vuedraggable";
 import locale from "element-ui/lib/locale/lang/en";
@@ -106,27 +115,66 @@ import vueCustomScrollbar from "vue-custom-scrollbar";
 import axios from "axios";
 import { scrypt } from "crypto";
 import GoTop from "@inotom/vue-go-top";
+import VModal from 'vue-js-modal'
+import * as animationData from "../../../public/lottie/blueTick.json"
+import Lottie from 'vue-lottie';
+
+var publicPath = process.env.BASE_URL;
+animationData.assets.forEach(item => { item.u = publicPath + 'lottie/'; });
 
 export default {
   components: {
     draggable,
     vueCustomScrollbar,
-    GoTop
+    GoTop,
+    VModal,
+          'lottie': Lottie
+
+
   },
   data() {
     return {
+      isModalVisible: false,
       data: [],
       loading: false,
       value: [],
       extra: [],
       saved: [],
+      search: "",
+      search2: "",
       settings: {
         maxScrollbarLength: 60
-      }
+      },
+            defaultOptions: {animationData: animationData.default},
+            animationSpeed: 1,
+            anim: null
+    
     };
   },
 
   methods: {
+
+          handleAnimation: function (anim) {
+        this.anim = anim;
+      },
+
+ stop: function () {
+        this.anim.stop();
+      },
+
+      play: function () {
+        this.anim.play();
+      },
+
+      pause: function () {
+        this.anim.pause();
+      },
+
+      onSpeedChange: function () {
+        this.anim.setSpeed(this.animationSpeed);
+      },
+
+
     save: function(event) {
       this.saved = this.saved.concat(this.value);
       console.log(this.saved);
@@ -147,24 +195,45 @@ export default {
       console.log(evt);
     },
 
+  // hide () {
+  // },
     open() {
-      this.$alert(
-        "Complete and Save Route Reordering for *ROUTE TITLE HERE* ?",
-        "Confirm Submission",
-        {
-          confirmButtonText: "YES",
-          callback: action => {
-            this.$message({
-              type: "info",
-              message: `action: ${action}`
-            });
-          }
-        }
-      );
-    }
+      // this.$alert(
+      //   "Complete and Save Route Reordering for *ROUTE TITLE HERE* ?",
+      //   "Confirm Submission",
+      //   {
+      //     confirmButtonText: "YES",
+      //     callback: action => {
+      //       this.$message({
+      //         type: "info",
+      //         message: `action: ${action}`
+      //       });
+      //     }
+      //   }
+      // );
+      axios
+        .post("https://miamiocr.free.beeceptor.com", {
+          data: this.saved
+        })
+        .then(response => {
+          console.log("done");
+          console.log(this.saved);
+        })
+        .catch(error => console.log(error));
+    this.$modal.show('hello-world');
+
+  setTimeout(() => {
+        this.$modal.hide('hello-world');
+
+  }, 2000);
+    },
+
+
   },
   mounted() {
     console.log("Component mounted.");
+
+    
   },
 
   created: function() {
@@ -173,9 +242,22 @@ export default {
   },
 
   computed: {
-    filtereddata() {
-      return this.data.filter(data => {
-        return data.id.match;
+    filteredData() {
+      var self = this;
+      return this.data.filter(item => {
+        return (
+          item.first_name.toLowerCase().indexOf(self.search.toLowerCase()) >= 0
+        );
+      });
+      //return this.customers;
+    },
+
+    filteredSavedData() {
+      var self = this;
+      return this.saved.filter(item => {
+        return (
+          item.first_name.toLowerCase().indexOf(self.search.toLowerCase()) >= 0
+        );
       });
     }
   }
@@ -187,7 +269,7 @@ export default {
   position: relative;
   margin: auto;
   display: inline-block;
-  height: 850px;
+  height: 800px;
   width: 100%;
   top: 0;
   bottom: 0;
@@ -197,7 +279,7 @@ export default {
   position: relative;
   margin: auto;
   display: inline-block;
-  height: 850px;
+  height: 800px;
   width: 100%;
   top: 0;
   bottom: 0;
@@ -225,6 +307,10 @@ table {
   left: 10%;
 }
 
+.header-animation{
+    /* make it closer to the search button */
+    margin-top:-20px;
+}
 .container {
   background-color: #fff;
   border-radius: 10px;
@@ -243,12 +329,30 @@ table {
   z-index: 10;
 }
 
-.table-container{
+.container2 {
+  position: absolute;
+  top: 0;
+  right: 0%;
+  left: 50%;
+  bottom: 0;
+  margin-left: 5%;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  display: table;
+  margin: 0;
+  height: 100%;
+  width: 50%;
+  margin-bottom: 5%;
+  padding: 25px;
+  background-color: #fafafa;
+  box-shadow: 0px 1px 8px #999;
+  z-index: 1;
+}
+
+.table-container {
   border-radius: 3px;
   z-index: 3;
-    box-shadow: 0px 1px 5px #999;
-
-  
+  box-shadow: 0px 1px 5px #999;
 }
 .header_text {
   font-size: 18px;
@@ -262,29 +366,16 @@ th {
   color: #fff;
 }
 
+td {
+  font-size: 16px;
+  color: #000c20;
+  line-height: 1.5;
+  margin: 5px;
+}
+
 .table-id {
   font-weight: 600;
 }
-
-/* #circle {
-  width: 50px;
-  height: 50px;
-  background-color: #1976d2;
-  border: 0.5px solid #000;
-  border-radius: 50%; 
-
-
-   position: relative;
-  margin: 2em 0;
-    vertical-align: middle;
-
-}
-
-.circle__wrapper {
-  display: table;
-  width: 100%;
-  height: 100%;
-} */
 
 .circle {
   position: relative;
@@ -373,25 +464,16 @@ th {
   text-align: center;
 }
 
-.container2 {
-  /* overflow-y: scroll; */
-  position: absolute;
-  top: 0;
-  right: 0%;
-  left: 50%;
-  margin-left: 5%;
-  /* background-color: #fff; */
-  border-top-right-radius: 10px;
-  border-bottom-right-radius: 10px;
-  display: table;
-  margin: 0;
-  height: 100%;
-  width: 50%;
-  margin-bottom: 5%;
-  padding: 25px;
-  background-color: #fafafa;
-  box-shadow: 0px 1px 8px #999;
-  z-index: 1;
+.modal-body{
+  border-radius: 15px;
+    background-color: rgba(0, 0, 0, 0.3);
 }
+.header-animation{
+    border-radius: 10%;
+
+
+}
+
+
 </style>
 

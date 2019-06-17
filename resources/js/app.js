@@ -12,6 +12,9 @@ import 'element-ui/lib/theme-chalk/index.css';
 import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import VModal from 'vue-js-modal'
+
+Vue.use(VModal)
 Vue.use(BackToTop)
 Vue.use(BootstrapVue)
 Vue.use(ElementUI);
