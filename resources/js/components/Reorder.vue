@@ -1,13 +1,15 @@
 <template>
   <div class="body">
-<modal name="hello-world"  
-         :width="400"
-         :height="310"
-         class="modal-body">
- <div class="header-animation">
-            <lottie :options="defaultOptions" :height="350" :width="350" v-on:animCreated="handleAnimation"/>
-        </div>
-</modal>
+    <modal name="hello-world" :width="400" :height="310" class="modal-body">
+      <div class="header-animation">
+        <lottie
+          :options="defaultOptions"
+          :height="350"
+          :width="350"
+          v-on:animCreated="handleAnimation"
+        />
+      </div>
+    </modal>
     <el-container class="container">
       <b-row>
         <b-col>
@@ -27,8 +29,16 @@
 
           <vue-custom-scrollbar class="scroll-area" :settings="settings" @ps-scroll-y="scrollHanle">
             <table class="table table-striped table-left">
+                      <span>Selected Ids: {{ selected }}</span>
+
               <thead class="thead">
                 <tr>
+                  <th scope="col">
+                    					<label class="form-checkbox">
+
+                    <input type="checkbox"  v-model="selectAll" @click="select">
+                    					</label>
+                  </th>
                   <th scope="col">ID</th>
                   <th scope="col">First Name</th>
                   <th scope="col">Last Name</th>
@@ -39,6 +49,9 @@
               </thead>
               <draggable v-model="data" :options="{group:'clothes'}" tag="tbody">
                 <tr v-for="item in filteredData" v-bind:key="item.id">
+                  <td scope="row">
+                    <input type="checkbox" :value="item.id" v-model="selected">
+                  </td>
                   <td scope="row" class="table-id">{{ item.id }}</td>
                   <td>{{item.first_name}}</td>
                   <td>{{item.last_name}}</td>
@@ -52,8 +65,6 @@
         </div>
         <!-- https://chrishurlburt.github.io/vue-scrollview/examples/dist/#/animation -->
       </div>
-
-
     </el-container>
     <b-container class="bv-example-row container2">
       <b-row>
@@ -115,12 +126,15 @@ import vueCustomScrollbar from "vue-custom-scrollbar";
 import axios from "axios";
 import { scrypt } from "crypto";
 import GoTop from "@inotom/vue-go-top";
-import VModal from 'vue-js-modal'
-import * as animationData from "../../../public/lottie/blueTick.json"
-import Lottie from 'vue-lottie';
+import VModal from "vue-js-modal";
+import * as animationData from "../../../public/lottie/blueTick.json";
+import Lottie from "vue-lottie";
+import { ServerTable, ClientTable, Event } from "vue-tables-2";
 
 var publicPath = process.env.BASE_URL;
-animationData.assets.forEach(item => { item.u = publicPath + 'lottie/'; });
+animationData.assets.forEach(item => {
+  item.u = publicPath + "lottie/";
+});
 
 export default {
   components: {
@@ -128,9 +142,7 @@ export default {
     vueCustomScrollbar,
     GoTop,
     VModal,
-          'lottie': Lottie
-
-
+    lottie: Lottie
   },
   data() {
     return {
@@ -142,38 +154,46 @@ export default {
       saved: [],
       search: "",
       search2: "",
+     		selected: [],
+		    selectAll: false,
+      itemIds: [],
+      columns: [
+        "id",
+        "first_name",
+        "Last Name",
+        "Company",
+        "Phone# 1",
+        "Phone# 2"
+      ],
       settings: {
         maxScrollbarLength: 60
       },
-            defaultOptions: {animationData: animationData.default},
-            animationSpeed: 1,
-            anim: null
-    
+      defaultOptions: { animationData: animationData.default },
+      animationSpeed: 1,
+      anim: null
     };
   },
 
   methods: {
+    handleAnimation: function(anim) {
+      this.anim = anim;
+    },
 
-          handleAnimation: function (anim) {
-        this.anim = anim;
-      },
+    stop: function() {
+      this.anim.stop();
+    },
 
- stop: function () {
-        this.anim.stop();
-      },
+    play: function() {
+      this.anim.play();
+    },
 
-      play: function () {
-        this.anim.play();
-      },
+    pause: function() {
+      this.anim.pause();
+    },
 
-      pause: function () {
-        this.anim.pause();
-      },
-
-      onSpeedChange: function () {
-        this.anim.setSpeed(this.animationSpeed);
-      },
-
+    onSpeedChange: function() {
+      this.anim.setSpeed(this.animationSpeed);
+    },
 
     save: function(event) {
       this.saved = this.saved.concat(this.value);
@@ -195,45 +215,41 @@ export default {
       console.log(evt);
     },
 
-  // hide () {
-  // },
     open() {
-      // this.$alert(
-      //   "Complete and Save Route Reordering for *ROUTE TITLE HERE* ?",
-      //   "Confirm Submission",
-      //   {
-      //     confirmButtonText: "YES",
-      //     callback: action => {
-      //       this.$message({
-      //         type: "info",
-      //         message: `action: ${action}`
-      //       });
-      //     }
-      //   }
-      // );
-      axios
-        .post("https://miamiocr.free.beeceptor.com", {
-          data: this.saved
-        })
-        .then(response => {
-          console.log("done");
-          console.log(this.saved);
-        })
-        .catch(error => console.log(error));
-    this.$modal.show('hello-world');
+      // axios
+      //   .post("https://miamiocr.free.beeceptor.com", {
+      //     data: this.saved
+      //   })
+      //   .then(response => {
+      //     console.log("done");
+      //     console.log(this.saved);
+      //   })
+      //   .catch(error => console.log(error));
+      // this.$modal.show("hello-world");
 
-  setTimeout(() => {
-        this.$modal.hide('hello-world');
+      // setTimeout(() => {
+      //   this.$modal.hide("hello-world");
+      // }, 2000);
 
-  }, 2000);
+      let newData = this.data.filter((item) => {
+        return item.id = this.selected[item.id];
+      })
+      
+      console.log(newData);
     },
 
+select() {
+			this.selected = [];
+			if (!this.selectAll) {
+				for (let item in this.data) {
+					this.selected.push(this.data[item].id);
+				}
+			}
+		}
 
   },
   mounted() {
     console.log("Component mounted.");
-
-    
   },
 
   created: function() {
@@ -307,9 +323,9 @@ table {
   left: 10%;
 }
 
-.header-animation{
-    /* make it closer to the search button */
-    margin-top:-20px;
+.header-animation {
+  /* make it closer to the search button */
+  margin-top: -20px;
 }
 .container {
   background-color: #fff;
@@ -464,16 +480,12 @@ td {
   text-align: center;
 }
 
-.modal-body{
+.modal-body {
   border-radius: 15px;
-    background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.3);
 }
-.header-animation{
-    border-radius: 10%;
-
-
+.header-animation {
+  border-radius: 10%;
 }
-
-
 </style>
 

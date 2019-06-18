@@ -8,6 +8,7 @@ import router from '../js/components/router/index'
 import store from '../js/components/store/index'
 import ElementUI from 'element-ui';
 import BackToTop from 'vue-backtotop'
+import {ServerTable, ClientTable, Event} from 'vue-tables-2';
 import 'element-ui/lib/theme-chalk/index.css';
 import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
@@ -18,6 +19,7 @@ Vue.use(VModal)
 Vue.use(BackToTop)
 Vue.use(BootstrapVue)
 Vue.use(ElementUI);
+Vue.use(ClientTable);
 
  const app = new Vue({
     el: '#app',
