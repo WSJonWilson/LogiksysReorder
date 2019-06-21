@@ -20,7 +20,9 @@
             <i class="el-icon-search el-input__icon" slot="suffix"></i>
           </el-input>
         </b-col>
-        <b-col></b-col>
+        <b-col class="text-right">
+          <el-button type="primary" v-on:click="send" icon="el-icon-check">Send</el-button>
+        </b-col>
       </b-row>
 
       <div class="row justify-content-center">
@@ -29,15 +31,13 @@
 
           <vue-custom-scrollbar class="scroll-area" :settings="settings" @ps-scroll-y="scrollHanle">
             <table class="table table-striped table-left">
-                      <span>Selected Ids: {{ selected }}</span>
-
               <thead class="thead">
                 <tr>
                   <th scope="col">
-                    					<label class="form-checkbox">
-
-                    <input type="checkbox"  v-model="selectAll" @click="select">
-                    					</label>
+                    <label class="form-checkbox">
+                      <p>All</p>
+                      <input type="checkbox" v-model="selectAll" @click="select">
+                    </label>
                   </th>
                   <th scope="col">ID</th>
                   <th scope="col">First Name</th>
@@ -50,7 +50,7 @@
               <draggable v-model="data" :options="{group:'clothes'}" tag="tbody">
                 <tr v-for="item in filteredData" v-bind:key="item.id">
                   <td scope="row">
-                    <input type="checkbox" :value="item.id" v-model="selected">
+                    <input type="checkbox" :value="item" v-model="selected">
                   </td>
                   <td scope="row" class="table-id">{{ item.id }}</td>
                   <td>{{item.first_name}}</td>
@@ -77,16 +77,20 @@
           </el-input>
         </b-col>
         <b-col class="text-right">
-          <el-button type="primary" v-on:click="open" icon="el-icon-check">Save</el-button>
+          <el-button type="primary" v-on:click="send2" icon="el-icon-check">Send</el-button>
         </b-col>
       </b-row>
       <vue-custom-scrollbar class="scroll-area2" :settings="settings" @ps-scroll-y="scrollHanle">
         <b-row>
-          <b-col cols="2"></b-col>
+          <b-col cols="2">
+            <input type="checkbox" v-model="selectAll2" @click="select2">
+          </b-col>
           <b-col cols="8">
-            <draggable v-model="saved" :options="{group:'clothes'}">
+            <draggable v-model="saved" :options="{group:'clothes1'}">
               <div v-for="item in saved" v-bind:key="item.id">
                 <b-card class="item-body">
+                  <input type="checkbox" :value="item" v-model="selected2">
+
                   <b-row>
                     <b-col align-self="center">
                       <div class="circle">
@@ -154,9 +158,11 @@ export default {
       saved: [],
       search: "",
       search2: "",
-     		selected: [],
-		    selectAll: false,
-      itemIds: [],
+      selected: [],
+      selected2: [],
+      selectAll2: false,
+      selectAll: false,
+
       columns: [
         "id",
         "first_name",
@@ -215,37 +221,53 @@ export default {
       console.log(evt);
     },
 
-    open() {
-      // axios
-      //   .post("https://miamiocr.free.beeceptor.com", {
-      //     data: this.saved
-      //   })
-      //   .then(response => {
-      //     console.log("done");
-      //     console.log(this.saved);
-      //   })
-      //   .catch(error => console.log(error));
-      // this.$modal.show("hello-world");
+        send() {
+      const array = this.saved.concat(this.selected);
+      this.saved = array;
+      console.log(this.saved);
 
-      // setTimeout(() => {
-      //   this.$modal.hide("hello-world");
-      // }, 2000);
-
-      let newData = this.data.filter((item) => {
-        return item.id = this.selected[item.id];
-      })
-      
-      console.log(newData);
+      const table = this.data.filter(item => !this.saved.includes(item));
+      this.selected = [];
+      this.data = table;
+      this.search = "";
+      this.search2 = "";
+      console.log(table);
     },
 
-select() {
-			this.selected = [];
-			if (!this.selectAll) {
-				for (let item in this.data) {
-					this.selected.push(this.data[item].id);
-				}
-			}
-		}
+
+
+    select() {
+      this.selected = [];
+      if (!this.selectAll) {
+        for (let item in this.data) {
+          this.selected.push(this.data[item]);
+        }
+      }
+    },
+
+
+    send2() {
+      const array = this.data.concat(this.selected2);
+      this.data = array;
+      console.log(this.data);
+
+      const table = this.saved.filter(item => !this.data.includes(item));
+      this.selected2 = [];
+      this.saved = table;
+      this.search = "";
+      this.search2 = "";
+      console.log(table);
+    },
+
+
+        select2() {
+      this.selected2 = [];
+      if (!this.selectAll2) {
+        for (let item in this.saved) {
+          this.selected2.push(this.saved[item]);
+        }
+      }
+    }
 
   },
   mounted() {
