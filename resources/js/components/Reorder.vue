@@ -10,114 +10,157 @@
         />
       </div>
     </modal>
-    <el-container class="container">
-      <b-row>
-        <b-col>
-          <p class="route-name">*ROUTE TITLE HERE*</p>
-        </b-col>
-        <b-col>
-          <el-input v-model="search" placeholder="Search...">
-            <i class="el-icon-search el-input__icon" slot="suffix"></i>
-          </el-input>
-        </b-col>
-        <b-col class="text-right">
-          <el-button type="primary" v-on:click="send" icon="el-icon-check">Send</el-button>
-        </b-col>
-      </b-row>
+    <b-row class="container_row">
+      <b-col class="start" cols="5">
+        <el-container class="container">
+          <b-row>
+            <b-col>
+              <p class="route-name">*ROUTE TITLE HERE*</p>
+            </b-col>
+            <b-col>
+              <el-input v-model="search" placeholder="Search...">
+                <i class="el-icon-search el-input__icon" slot="suffix"></i>
+              </el-input>
+            </b-col>
+             <b-col class="text-right">
+        </b-col> 
+                </b-row>
 
-      <div class="row justify-content-center">
-        <div class="col-md-10 table-container">
-          <div class="header"></div>
+          <div class="row justify-content-center">
+            <div class="col-md-12 table-container">
+              <div class="header"></div>
 
-          <vue-custom-scrollbar class="scroll-area" :settings="settings" @ps-scroll-y="scrollHanle">
-            <table class="table table-striped table-left">
-              <thead class="thead">
-                <tr>
-                  <th scope="col">
-                    <label class="form-checkbox">
-                      <p>All</p>
-                      <input type="checkbox" v-model="selectAll" @click="select">
-                    </label>
-                  </th>
-                  <th scope="col">ID</th>
-                  <th scope="col">First Name</th>
-                  <th scope="col">Last Name</th>
-                  <th scope="col">Company</th>
-                  <th scope="col">Phone# 1</th>
-                  <th scope="col">Phone# 2</th>
-                </tr>
-              </thead>
-              <draggable v-model="data" :options="{group:'clothes'}" tag="tbody">
-                <tr v-for="item in filteredData" v-bind:key="item.id">
-                  <td scope="row">
-                    <input type="checkbox" :value="item" v-model="selected">
-                  </td>
-                  <td scope="row" class="table-id">{{ item.id }}</td>
-                  <td>{{item.first_name}}</td>
-                  <td>{{item.last_name}}</td>
-                  <td>{{item.company}}</td>
-                  <td>{{item.phone1}}</td>
-                  <td>{{item.phone2}}</td>
-                </tr>
-              </draggable>
-            </table>
-          </vue-custom-scrollbar>
+              <vue-custom-scrollbar
+                class="scroll-area"
+                :settings="settings"
+                @ps-scroll-y="scrollHanle"
+              >
+                <table class="table table-striped table-left">
+                  <thead class="thead">
+                    <tr>
+                      <th scope="col">
+                        <label class="form-checkbox">
+                          <p>All</p>
+                          <input
+                            class="checkbox"
+                            type="checkbox"
+                            v-model="selectAll"
+                            @click="select"
+                          >
+                        </label>
+                      </th>
+                      <th scope="col">ID</th>
+                      <th scope="col">First Name</th>
+                      <th scope="col">Last Name</th>
+                      <th scope="col">Company</th>
+                      <th scope="col">Phone# 1</th>
+                      <th scope="col">Phone# 2</th>
+                    </tr>
+                  </thead>
+                  <draggable v-model="data" :options="{group:'clothes'}" tag="tbody">
+                    <tr v-for="item in filteredData" v-bind:key="item.id">
+                      <td scope="row">
+                        <input class="checkbox" type="checkbox" :value="item" v-model="selected">
+                      </td>
+                      <td scope="row" class="table-id">{{ item.id }}</td>
+                      <td>{{item.first_name}}</td>
+                      <td>{{item.last_name}}</td>
+                      <td>{{item.company}}</td>
+                      <td>{{item.phone1}}</td>
+                      <td>{{item.phone2}}</td>
+                    </tr>
+                  </draggable>
+                </table>
+              </vue-custom-scrollbar>
+            </div>
+            <!-- https://chrishurlburt.github.io/vue-scrollview/examples/dist/#/animation -->
+          </div>
+        </el-container>
+      </b-col>
+
+      <b-col class="middle" cols="2">
+        <div class="container3">
+          <el-button
+            class="btn-send-left"
+            type="primary"
+            circle
+            v-on:click="send2"
+            icon="el-icon-arrow-left"
+          ></el-button>
+         
         </div>
-        <!-- https://chrishurlburt.github.io/vue-scrollview/examples/dist/#/animation -->
-      </div>
-    </el-container>
-    <b-container class="bv-example-row container2">
-      <b-row>
-        <b-col>
-          <p class="route-name">*ROUTE TITLE HERE*</p>
-        </b-col>
-        <b-col>
-          <el-input v-model="search2" placeholder="Search...">
-            <i class="el-icon-search el-input__icon" slot="suffix"></i>
-          </el-input>
-        </b-col>
-        <b-col class="text-right">
-          <el-button type="primary" v-on:click="send2" icon="el-icon-check">Send</el-button>
-        </b-col>
-      </b-row>
-      <vue-custom-scrollbar class="scroll-area2" :settings="settings" @ps-scroll-y="scrollHanle">
-        <b-row>
-          <b-col cols="2">
-            <input type="checkbox" v-model="selectAll2" @click="select2">
-          </b-col>
-          <b-col cols="8">
-            <draggable v-model="saved" :options="{group:'clothes1'}">
-              <div v-for="item in saved" v-bind:key="item.id">
-                <b-card class="item-body">
-                  <input type="checkbox" :value="item" v-model="selected2">
 
-                  <b-row>
-                    <b-col align-self="center">
-                      <div class="circle">
-                        <div class="circle__inner">
-                          <div class="circle__wrapper">
-                            <div class="circle__content">
-                              <p class="data-id">{{item.id}}</p>
+        <div class="container3">
+           <el-button
+            class="btn-send-right"
+            type="primary"
+            circle
+            v-on:click="send"
+            icon="el-icon-arrow-right"
+          ></el-button>
+        </div>
+      </b-col>
+      <b-col class="end" cols="5">
+        <b-container class="bv-example-row container2">
+          <b-row>
+            <b-col>
+              <p class="route-name">*ROUTE TITLE HERE*</p>
+            </b-col>
+            <b-col>
+              <el-input v-model="search2" placeholder="Search...">
+                <i class="el-icon-search el-input__icon" slot="suffix"></i>
+              </el-input>
+            </b-col>
+ <b-col class="text-right">
+          <el-button type="primary" v-on:click="open" icon="el-icon-check">Finish</el-button>
+        </b-col>           </b-row>
+          <vue-custom-scrollbar
+            class="scroll-area2"
+            :settings="settings"
+            @ps-scroll-y="scrollHanle"
+          >
+            <b-row>
+              <b-col cols="1">
+                <input type="checkbox" v-model="selectAll2" @click="select2">
+              </b-col>
+              <b-col cols="10">
+                <draggable v-model="saved" :options="{group:'clothes1'}">
+                  <div v-for="item in filteredSavedData" v-bind:key="item.id">
+<b-row>
+                <input class="checkbox-right" type="checkbox" :value="item" v-model="selected2">
+
+                    <b-card class="item-body">
+
+                      <b-row>
+                        <b-col align-self="center">
+                          <div class="circle">
+                            <div class="circle__inner">
+                              <div class="circle__wrapper">
+                                <div class="circle__content">
+                                  <p class="data-id">{{item.id}}</p>
+                                </div>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      </div>
-                    </b-col>
-                    <b-col cols="10">
-                      <p class="data-name">{{item.first_name}} {{item.last_name}}</p>
-                      <p class="data-company">{{item.company}}</p>
-                      <p class="data-tel">{{item.phone1}} / {{item.phone2}}</p>
-                    </b-col>
-                  </b-row>
-                </b-card>
-              </div>
-              <go-top></go-top>
-            </draggable>
-          </b-col>
-          <b-col></b-col>
-        </b-row>
-      </vue-custom-scrollbar>
-    </b-container>
+                        </b-col>
+                        <b-col cols="10">
+                          <p class="data-name">{{item.first_name}} {{item.last_name}}</p>
+                          <p class="data-company">{{item.company}}</p>
+                          <p class="data-tel">{{item.phone1}} / {{item.phone2}}</p>
+                        </b-col>
+                      </b-row>
+                    </b-card>
+</b-row>
+                  </div>
+                  <go-top></go-top>
+                </draggable>
+              </b-col>
+              <b-col  cols="1"></b-col>
+            </b-row>
+          </vue-custom-scrollbar>
+        </b-container>
+      </b-col>
+    </b-row>
   </div>
 </template>
 
@@ -181,6 +224,36 @@ export default {
   },
 
   methods: {
+
+        open() {
+      this.$alert(
+        "Complete and Save Route Reordering for *ROUTE TITLE HERE* ?",
+        "Confirm Submission",
+        {
+          confirmButtonText: "YES",
+          callback: action => {
+            this.$message({
+              type: "info",
+              message: `action: ${action}`
+            });
+          }
+        }
+      );
+      axios
+        .post("https://miamiocr.free.beeceptor.com", {
+          data: this.saved
+        })
+        .then(response => {
+          console.log("done");
+          console.log(this.saved);
+        })
+        .catch(error => console.log(error));
+    this.$modal.show('hello-world');
+  setTimeout(() => {
+        this.$modal.hide('hello-world');
+  }, 2000);
+    },
+
     handleAnimation: function(anim) {
       this.anim = anim;
     },
@@ -221,7 +294,7 @@ export default {
       console.log(evt);
     },
 
-        send() {
+    send() {
       const array = this.saved.concat(this.selected);
       this.saved = array;
       console.log(this.saved);
@@ -234,8 +307,6 @@ export default {
       console.log(table);
     },
 
-
-
     select() {
       this.selected = [];
       if (!this.selectAll) {
@@ -244,7 +315,6 @@ export default {
         }
       }
     },
-
 
     send2() {
       const array = this.data.concat(this.selected2);
@@ -259,8 +329,7 @@ export default {
       console.log(table);
     },
 
-
-        select2() {
+    select2() {
       this.selected2 = [];
       if (!this.selectAll2) {
         for (let item in this.saved) {
@@ -268,7 +337,6 @@ export default {
         }
       }
     }
-
   },
   mounted() {
     console.log("Component mounted.");
@@ -340,9 +408,9 @@ table {
 .body {
   position: fixed;
   top: 5%;
-  right: 10%;
+  right: 5%;
   bottom: 5%;
-  left: 10%;
+  left: 5%;
 }
 
 .header-animation {
@@ -353,14 +421,10 @@ table {
   background-color: #fff;
   border-radius: 10px;
   display: table;
-  position: absolute;
   margin: 0;
-  height: 100%;
-  top: 0;
-  right: 50%;
-  left: 0%;
-  bottom: 0;
-  width: 50%;
+  height: 90%;
+
+  width: 100%;
   box-shadow: 0px 1px 8px #999;
   margin-bottom: 5%;
   padding: 20px;
@@ -368,18 +432,13 @@ table {
 }
 
 .container2 {
-  position: absolute;
-  top: 0;
-  right: 0%;
-  left: 50%;
-  bottom: 0;
   margin-left: 5%;
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
   display: table;
   margin: 0;
-  height: 100%;
-  width: 50%;
+  height: 90%;
+  width: 100%;
   margin-bottom: 5%;
   padding: 25px;
   background-color: #fafafa;
@@ -394,6 +453,10 @@ table {
 }
 .header_text {
   font-size: 18px;
+}
+
+.checkbox {
+  background-color: #000c20;
 }
 
 thead {
@@ -490,11 +553,6 @@ td {
   margin-top: 5px;
   font-size: 18px;
 }
-.btn {
-  background-color: #1976d2;
-  border-radius: 5px;
-  height: 100%;
-}
 
 .btn p {
   color: #fff;
@@ -506,8 +564,52 @@ td {
   border-radius: 15px;
   background-color: rgba(0, 0, 0, 0.3);
 }
+
 .header-animation {
   border-radius: 10%;
 }
+
+.container_row {
+  height: 100%;
+  width: 100%;
+}
+.start {
+  /* background-color: #222; */
+  width: 100%;
+}
+
+.middle {
+
+  
+}
+
+.end {
+  /* background-color: #222; */
+  width: 100%;
+}
+
+.btn-send-left{
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    height: 50px;
+    width: 50px;
+    
+}
+
+.btn-send-right{
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    height: 50px;
+    width: 50px;
+}
+
+.checkbox-right{
+margin-top: 15%;
+
+margin-right: 2%;
+}
+
 </style>
 

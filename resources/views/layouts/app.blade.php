@@ -13,10 +13,8 @@
         <!-- Styles -->
         <link rel="stylesheet" href="/css/app.css">
     </head>
-    <body>
-    <div id="">
+    <body style="background-color: #f2f2f2;">
     <div id="app">
-    </div>
     <div>
     <script src="/js/app.js"></script>
     </body>
