@@ -1,15 +1,26 @@
 <template>
   <div class="body">
-    <modal name="hello-world" :width="400" :height="310" class="modal-body">
-      <div class="header-animation">
-        <lottie
-          :options="defaultOptions"
-          :height="350"
-          :width="350"
-          v-on:animCreated="handleAnimation"
-        />
-      </div>
-    </modal>
+    
+    <b-card id="snackbar">
+      <b-row class="snackbar-animation-container">
+        <b-col  >
+          <div class="header-animation">
+            <lottie
+              :options="defaultOptions"
+              :height="75"
+              :width="60"
+              v-on:animCreated="handleAnimation"
+            />
+          </div>
+        </b-col>
+        <b-col>
+                    <b-card-text class="snackbar-text">Success!</b-card-text>       
+        </b-col>
+      </b-row>
+
+      <!-- <b-button href="#" variant="primary">Go somewhere</b-button> -->
+    </b-card>
+    
     <b-row class="container_row">
       <b-col class="start" cols="5">
         <el-container class="container">
@@ -22,59 +33,56 @@
                 <i class="el-icon-search el-input__icon" slot="suffix"></i>
               </el-input>
             </b-col>
-             <b-col class="text-right">
-        </b-col> 
-                </b-row>
+            <b-col class="text-right">
+              <el-button
+                class="btn-finish"
+                type="primary"
+                v-on:click="open"
+                icon="el-icon-check"
+              >Finish</el-button>
+            </b-col>
+          </b-row>
 
           <div class="row justify-content-center">
-            <div class="col-md-12 table-container">
-              <div class="header"></div>
-
-              <vue-custom-scrollbar
-                class="scroll-area"
-                :settings="settings"
-                @ps-scroll-y="scrollHanle"
-              >
-                <table class="table table-striped table-left">
-                  <thead class="thead">
-                    <tr>
-                      <th scope="col">
-                        <label class="form-checkbox">
-                          <p>All</p>
-                          <input
-                            class="checkbox"
-                            type="checkbox"
-                            v-model="selectAll"
-                            @click="select"
-                          >
-                        </label>
-                      </th>
-                      <th scope="col">ID</th>
-                      <th scope="col">First Name</th>
-                      <th scope="col">Last Name</th>
-                      <th scope="col">Company</th>
-                      <th scope="col">Phone# 1</th>
-                      <th scope="col">Phone# 2</th>
-                    </tr>
-                  </thead>
-                  <draggable v-model="data" :options="{group:'clothes'}" tag="tbody">
-                    <tr v-for="item in filteredData" v-bind:key="item.id">
-                      <td scope="row">
-                        <input class="checkbox" type="checkbox" :value="item" v-model="selected">
-                      </td>
-                      <td scope="row" class="table-id">{{ item.id }}</td>
-                      <td>{{item.first_name}}</td>
-                      <td>{{item.last_name}}</td>
-                      <td>{{item.company}}</td>
-                      <td>{{item.phone1}}</td>
-                      <td>{{item.phone2}}</td>
-                    </tr>
-                  </draggable>
-                </table>
-              </vue-custom-scrollbar>
-            </div>
-            <!-- https://chrishurlburt.github.io/vue-scrollview/examples/dist/#/animation -->
+            <vue-custom-scrollbar
+              class="scroll-area"
+              :settings="settings"
+              @ps-scroll-y="scrollHanle"
+            >
+              <table class="table table-striped table-left">
+                <thead class="thead">
+                  <tr>
+                    <th scope="col">
+                      <label class="form-checkbox">
+                        <p>All</p>
+                        <input class="checkbox" type="checkbox" v-model="selectAll" @click="select">
+                      </label>
+                    </th>
+                    <th scope="col">ID</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">Company</th>
+                    <th scope="col">Phone# 1</th>
+                    <th scope="col">Phone# 2</th>
+                  </tr>
+                </thead>
+                <draggable v-model="data" :options="{group:'clothes'}" tag="tbody">
+                  <tr v-for="item in filteredData" v-bind:key="item.id">
+                    <td scope="row">
+                      <input class="checkbox" type="checkbox" :value="item" v-model="selected">
+                    </td>
+                    <td scope="row" class="table-id">{{ item.id }}</td>
+                    <td>{{item.first_name}}</td>
+                    <td>{{item.last_name}}</td>
+                    <td>{{item.company}}</td>
+                    <td>{{item.phone1}}</td>
+                    <td>{{item.phone2}}</td>
+                  </tr>
+                </draggable>
+              </table>
+            </vue-custom-scrollbar>
           </div>
+          <!-- https://chrishurlburt.github.io/vue-scrollview/examples/dist/#/animation -->
         </el-container>
       </b-col>
 
@@ -87,11 +95,10 @@
             v-on:click="send2"
             icon="el-icon-arrow-left"
           ></el-button>
-         
         </div>
 
         <div class="container3">
-           <el-button
+          <el-button
             class="btn-send-right"
             type="primary"
             circle
@@ -107,13 +114,14 @@
               <p class="route-name">*ROUTE TITLE HERE*</p>
             </b-col>
             <b-col>
-              <el-input v-model="search2" placeholder="Search...">
+                            <el-input v-model="search" placeholder="Search...">
                 <i class="el-icon-search el-input__icon" slot="suffix"></i>
               </el-input>
             </b-col>
- <b-col class="text-right">
-          <el-button type="primary" v-on:click="open" icon="el-icon-check">Finish</el-button>
-        </b-col>           </b-row>
+            <b-col class="text-right">
+              <font-awesome-icon icon="ellipsis-v" class="icon-settings"/>
+            </b-col>
+          </b-row>
           <vue-custom-scrollbar
             class="scroll-area2"
             :settings="settings"
@@ -126,36 +134,41 @@
               <b-col cols="10">
                 <draggable v-model="saved" :options="{group:'clothes1'}">
                   <div v-for="item in filteredSavedData" v-bind:key="item.id">
-<b-row>
-                <input class="checkbox-right" type="checkbox" :value="item" v-model="selected2">
-
-                    <b-card class="item-body">
-
-                      <b-row>
-                        <b-col align-self="center">
-                          <div class="circle">
-                            <div class="circle__inner">
-                              <div class="circle__wrapper">
-                                <div class="circle__content">
-                                  <p class="data-id">{{item.id}}</p>
+                    <b-row>
+                      <div>
+                        <input
+                          class="checkbox-right"
+                          type="checkbox"
+                          :value="item"
+                          v-model="selected2"
+                        >
+                      </div>
+                      <b-card class="item-body">
+                        <b-row>
+                          <b-col align-self="center">
+                            <div class="circle">
+                              <div class="circle__inner">
+                                <div class="circle__wrapper">
+                                  <div class="circle__content">
+                                    <p class="data-id">{{item.id}}</p>
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
-                        </b-col>
-                        <b-col cols="10">
-                          <p class="data-name">{{item.first_name}} {{item.last_name}}</p>
-                          <p class="data-company">{{item.company}}</p>
-                          <p class="data-tel">{{item.phone1}} / {{item.phone2}}</p>
-                        </b-col>
-                      </b-row>
-                    </b-card>
-</b-row>
+                          </b-col>
+                          <b-col cols="10">
+                            <p class="data-name">{{item.first_name}} {{item.last_name}}</p>
+                            <p class="data-company">{{item.company}}</p>
+                            <p class="data-tel">{{item.phone1}} / {{item.phone2}}</p>
+                          </b-col>
+                        </b-row>
+                      </b-card>
+                    </b-row>
                   </div>
                   <go-top></go-top>
                 </draggable>
               </b-col>
-              <b-col  cols="1"></b-col>
+              <b-col cols="1"></b-col>
             </b-row>
           </vue-custom-scrollbar>
         </b-container>
@@ -205,6 +218,11 @@ export default {
       selected2: [],
       selectAll2: false,
       selectAll: false,
+      snackbar: false,
+      color: "",
+      mode: "",
+      timeout: 6000,
+      text: "Hello, I'm a snackbar",
 
       columns: [
         "id",
@@ -225,20 +243,20 @@ export default {
 
   methods: {
 
-        open() {
+ myFunction() {
+  var x = document.getElementById("snackbar");
+  x.className = "show";
+  setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+},
+
+    open() {
       this.$alert(
         "Complete and Save Route Reordering for *ROUTE TITLE HERE* ?",
         "Confirm Submission",
         {
           confirmButtonText: "YES",
           callback: action => {
-            this.$message({
-              type: "info",
-              message: `action: ${action}`
-            });
-          }
-        }
-      );
+
       axios
         .post("https://miamiocr.free.beeceptor.com", {
           data: this.saved
@@ -246,12 +264,16 @@ export default {
         .then(response => {
           console.log("done");
           console.log(this.saved);
+                this.myFunction();
+
         })
         .catch(error => console.log(error));
-    this.$modal.show('hello-world');
-  setTimeout(() => {
-        this.$modal.hide('hello-world');
-  }, 2000);
+
+
+          }
+        }
+      );
+
     },
 
     handleAnimation: function(anim) {
@@ -427,8 +449,8 @@ table {
   width: 100%;
   box-shadow: 0px 1px 8px #999;
   margin-bottom: 5%;
-  padding: 20px;
-  z-index: 10;
+  padding: 25px;
+  z-index: 8;
 }
 
 .container2 {
@@ -453,10 +475,6 @@ table {
 }
 .header_text {
   font-size: 18px;
-}
-
-.checkbox {
-  background-color: #000c20;
 }
 
 thead {
@@ -580,7 +598,6 @@ td {
 
 .middle {
 
-  
 }
 
 .end {
@@ -588,28 +605,87 @@ td {
   width: 100%;
 }
 
-.btn-send-left{
-    position: absolute;
-    top: 45%;
+.btn-finish {
+  /* position: absolute;
+    top: 5%;
     left: 50%;
-    height: 50px;
-    width: 50px;
-    
+    right: 0; */
 }
 
-.btn-send-right{
-    position: absolute;
-    top: 55%;
-    left: 50%;
-    height: 50px;
-    width: 50px;
+.btn-send-left {
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  height: 50px;
+  width: 50px;
 }
 
-.checkbox-right{
-margin-top: 15%;
-
-margin-right: 2%;
+.btn-send-right {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: 50px;
+  width: 50px;
 }
 
+#snackbar{
+    visibility: hidden;
+width: 230px;
+height: 55px;
+background-color: #fff;
+z-index: 10;
+border-radius: 25px;
+  position: fixed;
+  left: 3%;
+  bottom: 30px;
+}
+
+.snackbar-animation-container{
+  margin-top: -10px;
+  padding: auto;
+}
+
+.snackbar-text{
+color: #000c20;
+font-size: 20px;
+font-weight: 400;
+float: left;
+margin-left: -30px;
+
+}
+
+#snackbar.show {
+  visibility: visible;
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+@-webkit-keyframes fadein {
+  from {bottom: 0; opacity: 0;} 
+  to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+  from {bottom: 0; opacity: 0;}
+  to {bottom: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+  from {bottom: 30px; opacity: 1;} 
+  to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+  from {bottom: 30px; opacity: 1;}
+  to {bottom: 0; opacity: 0;}
+}
+
+
+
+.icon-settings {
+  color: #000c20;
+  margin-top: 5%;
+  font-size: 20px;
+}
 </style>
 

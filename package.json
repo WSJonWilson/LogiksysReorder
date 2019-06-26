@@ -24,6 +24,9 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
+        "@fortawesome/fontawesome-svg-core": "^1.2.19",
+        "@fortawesome/free-solid-svg-icons": "^5.9.0",
+        "@fortawesome/vue-fontawesome": "^0.1.6",
         "@inotom/vue-go-top": "^1.1.0",
         "bootstrap-vue": "^2.0.0-rc.22",
         "element-ui": "^2.9.1",
@@ -36,6 +39,7 @@
         "vue-router": "^3.0.6",
         "vue-tables-2": "^1.4.70",
         "vuedraggable": "^2.21.0",
+        "vuetify": "^1.5.16",
         "vuex": "^3.1.1"
     }
 }
