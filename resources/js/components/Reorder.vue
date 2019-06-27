@@ -26,7 +26,7 @@
         <el-container class="container">
           <b-row>
             <b-col>
-              <p class="route-name">*ROUTE TITLE HERE*</p>
+              <p class="route-name">EASTA</p>
             </b-col>
             <b-col>
               <el-input v-model="search" placeholder="Search...">
@@ -87,13 +87,24 @@
       </b-col>
 
       <b-col class="middle" cols="2">
+
+          <div class="counter-top">
+            <b-card class="card-top">
+                <h3> Selected</h3>
+                                        <p>{{ selected.length }}</p>
+
+            </b-card>
+          </div>
+
+
+        <div style="positon: fixed;">
         <div class="container3">
           <el-button
             class="btn-send-left"
             type="primary"
             circle
             v-on:click="send2"
-            icon="el-icon-arrow-left"
+            icon="el-icon-arrow-left"                                                                                          
           ></el-button>
         </div>
 
@@ -106,12 +117,34 @@
             icon="el-icon-arrow-right"
           ></el-button>
         </div>
+        </div>
+
+
+         <div class="counter-bottom">
+            <b-card class="card-bottom">
+              <h3> Selected</h3>
+                               
+                      <p>{{ selected2.length }}</p>
+
+
+            </b-card>
+          </div>
+
+
       </b-col>
       <b-col class="end" cols="5">
         <b-container class="bv-example-row container2">
+          <div class="badge-right">
+            <h3>
+              {{ saved.length }} 
+            </h3>
+            <h3>
+              Left
+            </h3>
+          </div>
           <b-row>
             <b-col>
-              <p class="route-name">*ROUTE TITLE HERE*</p>
+              <p class="route-name">EASTA</p>
             </b-col>
             <b-col>
                             <el-input v-model="search" placeholder="Search...">
@@ -251,7 +284,7 @@ export default {
 
     open() {
       this.$alert(
-        "Complete and Save Route Reordering for *ROUTE TITLE HERE* ?",
+        "Complete and Save Route Reordering for EASTA ?",
         "Confirm Submission",
         {
           confirmButtonText: "YES",
@@ -327,6 +360,8 @@ export default {
       this.search = "";
       this.search2 = "";
       console.log(table);
+      this.selectAll = false;
+
     },
 
     select() {
@@ -349,6 +384,7 @@ export default {
       this.search = "";
       this.search2 = "";
       console.log(table);
+      this.selectAll2 = false;
     },
 
     select2() {
@@ -463,7 +499,7 @@ table {
   width: 100%;
   margin-bottom: 5%;
   padding: 25px;
-  background-color: #fafafa;
+  background-color: #fff;
   box-shadow: 0px 1px 8px #999;
   z-index: 1;
 }
@@ -612,12 +648,90 @@ td {
     right: 0; */
 }
 
+.badge-right{
+  background-color: #03A9F4 ;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  position: absolute;
+  top: 50%;
+  right: 2%;
+  text-align: center;
+  padding: 10px;
+
+}
+
+.badge-right h3{
+    font-size: 18px;
+    color: #fff;
+}
+
+
+.counter-bottom{
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 5%;
+}
+
+.counter-top{
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0%;
+}
+
+
+.card-top{
+  background-color: #fff;
+  border-radius: 5px;
+    box-shadow: 0px 1px 2px #dbdbdb;
+
+
+}
+
+.card-bottom{
+  background-color: #fff;
+    border-radius: 5px;
+
+  box-shadow: 0px 1px 2px #dbdbdb;
+
+}
+
+.card-top h3{
+  text-align: center;
+  font-size: 16px;
+  color: #000c20;
+
+
+}
+
+.card-bottom h3{
+  text-align: center;
+  font-size: 16px;
+  color: #000c20;
+
+
+}
+
+
+.card-top p{
+  text-align: center;
+  
+
+}
+
+.card-bottom p{
+  text-align: center;
+
+}
+
 .btn-send-left {
   position: absolute;
   top: 35%;
   left: 50%;
   height: 50px;
   width: 50px;
+  font-size: 20px
 }
 
 .btn-send-right {
@@ -626,6 +740,7 @@ td {
   left: 50%;
   height: 50px;
   width: 50px;
+  font-size: 20px
 }
 
 #snackbar{
