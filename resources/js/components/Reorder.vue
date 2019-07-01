@@ -1,9 +1,8 @@
 <template>
   <div class="body">
-    
     <b-card id="snackbar">
       <b-row class="snackbar-animation-container">
-        <b-col  >
+        <b-col>
           <div class="header-animation">
             <lottie
               :options="defaultOptions"
@@ -14,23 +13,23 @@
           </div>
         </b-col>
         <b-col>
-                    <b-card-text class="snackbar-text">Success!</b-card-text>       
+          <b-card-text class="snackbar-text">Success!</b-card-text>
         </b-col>
       </b-row>
 
       <!-- <b-button href="#" variant="primary">Go somewhere</b-button> -->
     </b-card>
-    
+
     <b-row class="container_row">
       <b-col class="start" cols="5">
         <el-container class="container">
           <b-row>
             <b-col>
-              <p class="route-name">EASTA</p>
+              <p class="route-name">EAST A</p>
             </b-col>
             <b-col>
-              <el-input v-model="search" placeholder="Search...">
-                <i class="el-icon-search el-input__icon" slot="suffix"></i>
+              <el-input class="searchbar" v-model="search" placeholder="Search...">
+                <i class="el-icon-search el-input__icon" slot="prefix"></i>
               </el-input>
             </b-col>
             <b-col class="text-right">
@@ -49,37 +48,45 @@
               :settings="settings"
               @ps-scroll-y="scrollHanle"
             >
-              <table class="table table-striped table-left">
-                <thead class="thead">
-                  <tr>
-                    <th scope="col">
-                      <label class="form-checkbox">
-                        <p>All</p>
-                        <input class="checkbox" type="checkbox" v-model="selectAll" @click="select">
-                      </label>
-                    </th>
-                    <th scope="col">ID</th>
-                    <th scope="col">First Name</th>
-                    <th scope="col">Last Name</th>
-                    <th scope="col">Company</th>
-                    <th scope="col">Phone# 1</th>
-                    <th scope="col">Phone# 2</th>
-                  </tr>
-                </thead>
-                <draggable v-model="data" :options="{group:'clothes'}" tag="tbody">
-                  <tr v-for="item in filteredData" v-bind:key="item.id">
-                    <td scope="row">
-                      <input class="checkbox" type="checkbox" :value="item" v-model="selected">
-                    </td>
-                    <td scope="row" class="table-id">{{ item.id }}</td>
-                    <td>{{item.first_name}}</td>
-                    <td>{{item.last_name}}</td>
-                    <td>{{item.company}}</td>
-                    <td>{{item.phone1}}</td>
-                    <td>{{item.phone2}}</td>
-                  </tr>
-                </draggable>
-              </table>
+              <template v-if="filteredData != 0">
+                <table class="table table-striped table-left">
+                  <thead class="thead">
+                    <tr>
+                      <th scope="col">
+                        <label class="form-checkbox">
+                          <!-- <p>All</p> -->
+                          <input id="checkbox" type="checkbox" v-model="selectAll" @click="select">
+                          <!-- <label id="checklabel" for="checkbox">Checkbox</label> -->
+                        </label>
+                      </th>
+                      <th scope="col">ID</th>
+                      <th scope="col">First Name</th>
+                      <th scope="col">Last Name</th>
+                      <th scope="col">Company</th>
+                      <th scope="col">Phone# 1</th>
+                      <th scope="col">Phone# 2</th>
+                    </tr>
+                  </thead>
+                  <draggable v-model="data" :options="{group:'clothes'}" tag="tbody">
+                    <tr v-for="item in filteredData" v-bind:key="item.id">
+                      <td scope="row">
+                        <input class="checkbox" type="checkbox" :value="item" v-model="selected">
+                      </td>
+                      <td scope="row" class="table-id">{{ item.id }}</td>
+                      <td onclick=" ">{{item.first_name}}</td>
+                      <td>{{item.last_name}}</td>
+                      <td>{{item.company}}</td>
+                      <td>{{item.phone1}}</td>
+                      <td>{{item.phone2}}</td>
+                    </tr>
+                  </draggable>
+                </table>
+              </template>
+              <template v-else>
+                <div>
+                  <h2 class="empty">No Results...</h2>
+                </div>
+              </template>
             </vue-custom-scrollbar>
           </div>
           <!-- https://chrishurlburt.github.io/vue-scrollview/examples/dist/#/animation -->
@@ -87,68 +94,74 @@
       </b-col>
 
       <b-col class="middle" cols="2">
+        <div class="counter-top">
+          <b-card class="card-top">
 
-          <div class="counter-top">
-            <b-card class="card-top">
-                <h3> Selected</h3>
-                                        <p>{{ selected.length }}</p>
+             <b-row align-v="center">
+              <b-col class="card-bottom-left"><chevron-left-circle-outline class="chevron-left-circle-outline" /></b-col>
 
-            </b-card>
-          </div>
+              <b-col>
+                 <h3>Selected</h3>
+            <p>{{ selected.length }}</p>
+              </b-col>
 
+              <b-col></b-col>
+            </b-row>
+
+          
+          </b-card>
+        </div>
 
         <div style="positon: fixed;">
-        <div class="container3">
-          <el-button
-            class="btn-send-left"
-            type="primary"
-            circle
-            v-on:click="send2"
-            icon="el-icon-arrow-left"                                                                                          
-          ></el-button>
-        </div>
-
-        <div class="container3">
-          <el-button
-            class="btn-send-right"
-            type="primary"
-            circle
-            v-on:click="send"
-            icon="el-icon-arrow-right"
-          ></el-button>
-        </div>
-        </div>
-
-
-         <div class="counter-bottom">
-            <b-card class="card-bottom">
-              <h3> Selected</h3>
-                               
-                      <p>{{ selected2.length }}</p>
-
-
-            </b-card>
+          <div class="container3">
+            <el-button
+              class="btn-send-left"
+              type="primary"
+              circle
+              v-on:click="send2"
+              icon="el-icon-arrow-left"
+            ></el-button>
           </div>
 
+          <div class="container3">
+            <el-button
+              class="btn-send-right"
+              type="primary"
+              circle
+              v-on:click="send"
+              icon="el-icon-arrow-right"
+            ></el-button>
+          </div>
+        </div>
 
+        <div class="counter-bottom">
+          <b-card class="card-bottom">
+            <b-row align-v="center">
+              <b-col cols="4"></b-col>
+              <b-col cols="4">
+                <h3>Selected</h3>
+                <p>{{ selected2.length }}</p>
+              </b-col>
+                            <b-col cols="2"  class="card-bottom-right"> <chevron-right-circle-outline class="chevron-right-circle-outline "/> </b-col>
+
+              <b-col cols="2"></b-col>
+            </b-row>
+          </b-card>
+        </div>
       </b-col>
       <b-col class="end" cols="5">
         <b-container class="bv-example-row container2">
           <div class="badge-right">
-            <h3>
-              {{ saved.length }} 
-            </h3>
-            <h3>
-              Left
-            </h3>
+            <h3>{{ saved.length }}</h3>
+            <h3>Left</h3>
           </div>
           <b-row>
             <b-col>
-              <p class="route-name">EASTA</p>
+              <p class="route-name">EAST A</p>
             </b-col>
             <b-col>
-                            <el-input v-model="search" placeholder="Search...">
-                <i class="el-icon-search el-input__icon" slot="suffix"></i>
+              <el-input class="searchbar" v-model="search" placeholder="Search...">
+                <i class="el-icon-search el-input__icon" slot="prefix"></i>
               </el-input>
             </b-col>
             <b-col class="text-right">
@@ -166,39 +179,54 @@
               </b-col>
               <b-col cols="10">
                 <draggable v-model="saved" :options="{group:'clothes1'}">
-                  <div v-for="item in filteredSavedData" v-bind:key="item.id">
-                    <b-row>
-                      <div>
-                        <input
-                          class="checkbox-right"
-                          type="checkbox"
-                          :value="item"
-                          v-model="selected2"
-                        >
-                      </div>
-                      <b-card class="item-body">
-                        <b-row>
-                          <b-col align-self="center">
-                            <div class="circle">
-                              <div class="circle__inner">
-                                <div class="circle__wrapper">
-                                  <div class="circle__content">
-                                    <p class="data-id">{{item.id}}</p>
+                  <template v-if="saved != 0">
+                    <div v-for="item in filteredSavedData" v-bind:key="item.id">
+                      <b-row>
+                        <b-col cols="1" align-self="center">
+                          <div>
+                            <drag-icon class="drag-icon"/>
+                          </div>
+                        </b-col>
+                        <b-col cols="11">
+                          <b-card class="item-body">
+                            <b-row>
+                              <b-col align-self="center">
+                                <div class="circle">
+                                  <div class="circle__inner">
+                                    <div class="circle__wrapper">
+                                      <div class="circle__content">
+                                        <p class="data-id">{{item.id}}</p>
+                                      </div>
+                                    </div>
                                   </div>
                                 </div>
-                              </div>
-                            </div>
-                          </b-col>
-                          <b-col cols="10">
-                            <p class="data-name">{{item.first_name}} {{item.last_name}}</p>
-                            <p class="data-company">{{item.company}}</p>
-                            <p class="data-tel">{{item.phone1}} / {{item.phone2}}</p>
-                          </b-col>
-                        </b-row>
-                      </b-card>
-                    </b-row>
-                  </div>
-                  <go-top></go-top>
+                              </b-col>
+                              <b-col cols="9">
+                                <p class="data-name">{{item.first_name}} {{item.last_name}}</p>
+                                <p class="data-company">{{item.company}}</p>
+                                <p class="data-tel">{{item.phone1}} / {{item.phone2}}</p>
+                              </b-col>
+                              <b-col cols="1">
+                                <div>
+                                  <input
+                                    class="checkbox-right"
+                                    type="checkbox"
+                                    :value="item"
+                                    v-model="selected2"
+                                  >
+                                </div>
+                              </b-col>
+                            </b-row>
+                          </b-card>
+                        </b-col>
+                      </b-row>
+                    </div>
+                  </template>
+                  <template v-else>
+                    <div>
+                      <h2 class="empty2">No Results...</h2>
+                    </div>
+                  </template>
                 </draggable>
               </b-col>
               <b-col cols="1"></b-col>
@@ -275,38 +303,36 @@ export default {
   },
 
   methods: {
-
- myFunction() {
-  var x = document.getElementById("snackbar");
-  x.className = "show";
-  setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
-},
+    myFunction() {
+      var x = document.getElementById("snackbar");
+      x.className = "show";
+      setTimeout(function() {
+        x.className = x.className.replace("show", "");
+      }, 3000);
+    },
 
     open() {
       this.$alert(
-        "Complete and Save Route Reordering for EASTA ?",
+        "Complete and Save Route Reordering for EAST A ?",
         "Confirm Submission",
         {
+          showCancelButton: true,
+          cancelButtonText: 'Cancel',
           confirmButtonText: "YES",
           callback: action => {
-
-      axios
-        .post("https://miamiocr.free.beeceptor.com", {
-          data: this.saved
-        })
-        .then(response => {
-          console.log("done");
-          console.log(this.saved);
+            axios
+              .post("https://miamiocr.free.beeceptor.com", {
+                data: this.saved
+              })
+              .then(response => {
+                console.log("done");
+                console.log(this.saved);
                 this.myFunction();
-
-        })
-        .catch(error => console.log(error));
-
-
+              })
+              .catch(error => console.log(error));
           }
         }
       );
-
     },
 
     handleAnimation: function(anim) {
@@ -361,7 +387,6 @@ export default {
       this.search2 = "";
       console.log(table);
       this.selectAll = false;
-
     },
 
     select() {
@@ -429,6 +454,21 @@ export default {
 </script>
 
 <style scoped>
+
+.chevron-left-circle-outline{
+  color: #dbdbdb;
+  font-size: 35px;
+
+
+}
+
+
+.chevron-right-circle-outline{
+  color: #dbdbdb;
+  font-size: 35px;
+} 
+
+
 .scroll-area {
   position: relative;
   margin: auto;
@@ -526,6 +566,7 @@ td {
   color: #000c20;
   line-height: 1.5;
   margin: 5px;
+  vertical-align: middle;
 }
 
 .table-id {
@@ -633,7 +674,6 @@ td {
 }
 
 .middle {
-
 }
 
 .end {
@@ -648,8 +688,8 @@ td {
     right: 0; */
 }
 
-.badge-right{
-  background-color: #03A9F4 ;
+.badge-right {
+  background-color: #03a9f4;
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
   position: absolute;
@@ -657,72 +697,62 @@ td {
   right: 2%;
   text-align: center;
   padding: 10px;
-
 }
 
-.badge-right h3{
-    font-size: 18px;
-    color: #fff;
+.badge-right h3 {
+  font-size: 18px;
+  color: #fff;
 }
 
-
-.counter-bottom{
+.counter-bottom {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 5%;
 }
 
-.counter-top{
+.counter-top {
   position: absolute;
   left: 0;
   right: 0;
   top: 0%;
 }
 
-
-.card-top{
+.card-top {
   background-color: #fff;
   border-radius: 5px;
-    box-shadow: 0px 1px 2px #dbdbdb;
-
-
-}
-
-.card-bottom{
-  background-color: #fff;
-    border-radius: 5px;
-
   box-shadow: 0px 1px 2px #dbdbdb;
-
 }
 
-.card-top h3{
+.card-bottom {
+  background-color: #fff;
+  border-radius: 5px;
+  padding-right: -100px;
+  box-shadow: 0px 1px 2px #dbdbdb;
+}
+
+.card-top h3 {
   text-align: center;
   font-size: 16px;
   color: #000c20;
-
-
 }
 
-.card-bottom h3{
+.card-bottom h3 {
   text-align: center;
   font-size: 16px;
   color: #000c20;
-
-
 }
 
-
-.card-top p{
+.card-top p {
+  margin-top: 5%;
   text-align: center;
-  
-
+  font-weight: 800;
 }
 
-.card-bottom p{
+.card-bottom p {
+  margin-top: 5%;
   text-align: center;
-
+  font-weight: 800;
 }
 
 .btn-send-left {
@@ -731,7 +761,7 @@ td {
   left: 50%;
   height: 50px;
   width: 50px;
-  font-size: 20px
+  font-size: 20px;
 }
 
 .btn-send-right {
@@ -740,33 +770,49 @@ td {
   left: 50%;
   height: 50px;
   width: 50px;
-  font-size: 20px
+  font-size: 20px;
 }
 
-#snackbar{
-    visibility: hidden;
-width: 230px;
-height: 55px;
-background-color: #fff;
-z-index: 10;
-border-radius: 25px;
+#snackbar {
+  visibility: hidden;
+  width: 230px;
+  height: 55px;
+  background-color: #fff;
+  z-index: 10;
+  border-radius: 25px;
   position: fixed;
   left: 3%;
-  bottom: 30px;
+  top: 30px;
 }
 
-.snackbar-animation-container{
+.snackbar-animation-container {
   margin-top: -10px;
   padding: auto;
 }
 
-.snackbar-text{
-color: #000c20;
-font-size: 20px;
-font-weight: 400;
-float: left;
-margin-left: -30px;
+.snackbar-text {
+  color: #000c20;
+  font-size: 20px;
+  font-weight: 400;
+  float: left;
+  margin-left: -30px;
+}
 
+.empty {
+  color: #dbdbdb;
+  text-align: center;
+  margin-top: 300px;
+}
+
+.empty2 {
+  color: #dbdbdb;
+  text-align: center;
+  margin-top: 300px;
+}
+
+.drag-icon {
+  font-size: 28px;
+  color: #999;
 }
 
 #snackbar.show {
@@ -776,26 +822,48 @@ margin-left: -30px;
 }
 
 @-webkit-keyframes fadein {
-  from {bottom: 0; opacity: 0;} 
-  to {bottom: 30px; opacity: 1;}
+  from {
+    top: 0;
+    opacity: 0;
+  }
+  to {
+    top: 30px;
+    opacity: 1;
+  }
 }
 
 @keyframes fadein {
-  from {bottom: 0; opacity: 0;}
-  to {bottom: 30px; opacity: 1;}
+  from {
+    top: 0;
+    opacity: 0;
+  }
+  to {
+    top: 30px;
+    opacity: 1;
+  }
 }
 
 @-webkit-keyframes fadeout {
-  from {bottom: 30px; opacity: 1;} 
-  to {bottom: 0; opacity: 0;}
+  from {
+    top: 30px;
+    opacity: 1;
+  }
+  to {
+    top: 0;
+    opacity: 0;
+  }
 }
 
 @keyframes fadeout {
-  from {bottom: 30px; opacity: 1;}
-  to {bottom: 0; opacity: 0;}
+  from {
+    top: 30px;
+    opacity: 1;
+  }
+  to {
+    top: 0;
+    opacity: 0;
+  }
 }
-
-
 
 .icon-settings {
   color: #000c20;

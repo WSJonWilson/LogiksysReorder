@@ -17,11 +17,19 @@ import VModal from 'vue-js-modal'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faCoffee, faEllipsisV } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import Drag from "vue-material-design-icons/Drag.vue"
+import ChevronLeftCircleOutline from "vue-material-design-icons/ChevronLeftCircleOutline.vue"
+import ChevronRightCircleOutline from "vue-material-design-icons/ChevronRightCircleOutline.vue"
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
-library.add(faCoffee, faEllipsisV)
+import "vue-material-design-icons/styles.css"
 
+library.add(faCoffee, faEllipsisV)
+ 
+Vue.component("drag-icon", Drag)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
+Vue.component('chevron-left-circle-outline', ChevronLeftCircleOutline)
+Vue.component('chevron-right-circle-outline', ChevronRightCircleOutline)
 
 Vue.use(Vuetify)
 Vue.use(VModal)
