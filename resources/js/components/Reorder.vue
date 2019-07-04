@@ -49,35 +49,160 @@
               @ps-scroll-y="scrollHanle"
             >
               <template v-if="filteredData != 0">
-                <table class="table table-striped table-left">
-                  <thead class="thead">
+                <table class="table table-head">
+                  <thead class="thead table-hover">
                     <tr>
                       <th scope="col">
-                        <label class="form-checkbox">
-                          <!-- <p>All</p> -->
-                          <input id="checkbox" type="checkbox" v-model="selectAll" @click="select">
-                          <!-- <label id="checklabel" for="checkbox">Checkbox</label> -->
-                        </label>
+                        <input
+                          class="checkboxAll"
+                          type="checkbox"
+                          v-model="selectAll"
+                          @click="select"
+                        />
                       </th>
-                      <th scope="col">ID</th>
-                      <th scope="col">First Name</th>
-                      <th scope="col">Last Name</th>
-                      <th scope="col">Company</th>
-                      <th scope="col">Phone# 1</th>
-                      <th scope="col">Phone# 2</th>
+                      <th scope="col">
+                        <b-row>
+                          <b-col>
+                            ID
+                            <template v-if="idOrder === true">
+                              <arrow-up-circle-outline
+                                class="id-Up"
+                                style="color: #999"
+                                @click="idAscend"
+                              />
+                              <arrow-down-circle-outline
+                                class="id-Down"
+                                style="color: #D32F2F"
+                                @click="idDescend"
+                              />
+                            </template>
+                            <template v-else>
+                              <arrow-up-circle-outline
+                                class="id-Up"
+                                style="color: #D32F2F"
+                                @click="idAscend"
+                              />
+                              <arrow-down-circle-outline
+                                class="id-Down"
+                                style="color: #999"
+                                @click="idDescend"
+                              />
+                            </template>
+                          </b-col>
+                        </b-row>
+                      </th>
+                      <th scope="col">
+                        <b-row>
+                          <b-col>
+                            FIRST NAME
+                            <template v-if="fnOrder === true">
+                              <arrow-up-circle-outline
+                                class="fn-Up"
+                                style="color: #999"
+                                @click="fnAscend"
+                              />
+                              <arrow-down-circle-outline
+                                class="fn-Down"
+                                style="color: #D32F2F"
+                                @click="fnDescend"
+                              />
+                            </template>
+                            <template v-else>
+                              <arrow-up-circle-outline style="color: #D32F2F" @click="fnAscend" />
+                              <arrow-down-circle-outline style="color: #999" @click="fnDescend" />
+                            </template>
+                          </b-col>
+                        </b-row>
+                      </th>
+                      <th scope="col">
+                        <b-row>
+                          <b-col>
+                            LAST NAME
+                            <template v-if="lnOrder === true">
+                              <arrow-up-circle-outline
+                                class="ln-Up"
+                                style="color: #999"
+                                @click="lnAscend"
+                              />
+                              <arrow-down-circle-outline
+                                class="ln-Down"
+                                style="color: #D32F2F"
+                                @click="lnDescend"
+                              />
+                            </template>
+                            <template v-else>
+                              <arrow-up-circle-outline
+                                class="ln-Up"
+                                style="color: #D32F2F"
+                                @click="lnAscend"
+                              />
+                              <arrow-down-circle-outline
+                                class="ln-Down"
+                                style="color: #999"
+                                @click="lnDescend"
+                              />
+                            </template>
+                          </b-col>
+                        </b-row>
+                      </th>
+                      <th scope="col">
+                        <b-row>
+                          COMPANY
+                          <template v-if="comOrder === true">
+                              <arrow-up-circle-outline
+                                class="com-Up"
+                                style="color: #999"
+                                @click="comAscend"
+                              />
+                              <arrow-down-circle-outline
+                                class="com-Down"
+                                style="color: #D32F2F"
+                                @click="comDescend"
+                              />
+                            </template>
+                            <template v-else>
+                              <arrow-up-circle-outline style="color: #D32F2F" @click="comAscend" />
+                              <arrow-down-circle-outline style="color: #999" @click="comDescend" />
+                            </template>
+                          <b-col cols="1"></b-col>
+                        </b-row>
+                      </th>
                     </tr>
                   </thead>
+                </table>
+                <table class="table">
                   <draggable v-model="data" :options="{group:'clothes'}" tag="tbody">
-                    <tr v-for="item in filteredData" v-bind:key="item.id">
-                      <td scope="row">
-                        <input class="checkbox" type="checkbox" :value="item" v-model="selected">
-                      </td>
-                      <td scope="row" class="table-id">{{ item.id }}</td>
-                      <td onclick=" ">{{item.first_name}}</td>
-                      <td>{{item.last_name}}</td>
-                      <td>{{item.company}}</td>
-                      <td>{{item.phone1}}</td>
-                      <td>{{item.phone2}}</td>
+                    <tr v-for="(item, index) in filteredData" :key="index">
+                      <button
+                        @click="clicked(index)"
+                        :class="{'active': isClicked[index]}"
+                        class="btn-active"
+                      >
+                        <label class="label" for="checkbox">
+                          <b-row>
+                            <td>
+                              <input
+                                class="checkbox"
+                                type="checkbox"
+                                :value="item"
+                                v-model="selected"
+                              />
+                            </td>
+                            <b-col style="margin-left: 70px;  margin-right: -65px;">
+                              <td class="table-id">{{ item.id }}</td>
+                            </b-col>
+                            <b-col>
+                              <td onclick=" ">{{item.first_name}}</td>
+                            </b-col>
+                            <b-col>
+                              <td>{{item.last_name}}</td>
+                            </b-col>
+                            <b-col>
+                              <td>{{item.company}}</td>
+                            </b-col>
+                          </b-row>
+                        </label>
+                      </button>
                     </tr>
                   </draggable>
                 </table>
@@ -96,55 +221,76 @@
       <b-col class="middle" cols="2">
         <div class="counter-top">
           <b-card class="card-top">
-
-             <b-row align-v="center">
-              <b-col class="card-bottom-left"><chevron-left-circle-outline class="chevron-left-circle-outline" /></b-col>
-
-              <b-col>
-                 <h3>Selected</h3>
-            <p>{{ selected.length }}</p>
+            <b-row align-v="center">
+              <b-col class="card-bottom-left">
+                <h3>Selected</h3>
+                <p>{{ selected.length }}</p>
               </b-col>
 
               <b-col></b-col>
-            </b-row>
 
-          
+              <b-col>
+                <chevron-right-circle-outline class="chevron-right-circle-outline" />
+              </b-col>
+            </b-row>
           </b-card>
         </div>
 
         <div style="positon: fixed;">
           <div class="container3">
-            <el-button
-              class="btn-send-left"
-              type="primary"
-              circle
-              v-on:click="send2"
-              icon="el-icon-arrow-left"
-            ></el-button>
+            <template v-if="saved != 0">
+              <el-button
+                class="btn-send-left"
+                type="primary"
+                circle
+                v-on:click="send2"
+                icon="el-icon-arrow-left"
+              ></el-button>
+            </template>
+            <template v-else>
+              <el-button
+                class="btn-send-left"
+                disabled
+                circle
+                v-on:click="send2"
+                icon="el-icon-arrow-left"
+              ></el-button>
+            </template>
           </div>
 
           <div class="container3">
-            <el-button
-              class="btn-send-right"
-              type="primary"
-              circle
-              v-on:click="send"
-              icon="el-icon-arrow-right"
-            ></el-button>
+            <template v-if="data != 0">
+              <el-button
+                class="btn-send-right"
+                type="primary"
+                circle
+                v-on:click="send"
+                icon="el-icon-arrow-right"
+              ></el-button>
+            </template>
+            <template v-else>
+              <el-button
+                class="btn-send-right"
+                disabled
+                circle
+                v-on:click="send"
+                icon="el-icon-arrow-right"
+              ></el-button>
+            </template>
           </div>
         </div>
 
         <div class="counter-bottom">
           <b-card class="card-bottom">
             <b-row align-v="center">
+              <b-col cols="4">
+                <chevron-left-circle-outline class="chevron-left-circle-outline" />
+              </b-col>
               <b-col cols="4"></b-col>
               <b-col cols="4">
                 <h3>Selected</h3>
                 <p>{{ selected2.length }}</p>
               </b-col>
-                            <b-col cols="2"  class="card-bottom-right"> <chevron-right-circle-outline class="chevron-right-circle-outline "/> </b-col>
-
-              <b-col cols="2"></b-col>
             </b-row>
           </b-card>
         </div>
@@ -165,7 +311,7 @@
               </el-input>
             </b-col>
             <b-col class="text-right">
-              <font-awesome-icon icon="ellipsis-v" class="icon-settings"/>
+              <font-awesome-icon icon="ellipsis-v" class="icon-settings" />
             </b-col>
           </b-row>
           <vue-custom-scrollbar
@@ -175,7 +321,7 @@
           >
             <b-row>
               <b-col cols="1">
-                <input type="checkbox" v-model="selectAll2" @click="select2">
+                <input type="checkbox" v-model="selectAll2" @click="select2" />
               </b-col>
               <b-col cols="10">
                 <draggable v-model="saved" :options="{group:'clothes1'}">
@@ -184,40 +330,43 @@
                       <b-row>
                         <b-col cols="1" align-self="center">
                           <div>
-                            <drag-icon class="drag-icon"/>
+                            <drag-icon class="drag-icon" />
                           </div>
                         </b-col>
+
                         <b-col cols="11">
-                          <b-card class="item-body">
-                            <b-row>
-                              <b-col align-self="center">
-                                <div class="circle">
-                                  <div class="circle__inner">
-                                    <div class="circle__wrapper">
-                                      <div class="circle__content">
-                                        <p class="data-id">{{item.id}}</p>
+                          <label class="label2">
+                            <b-card class="item-body">
+                              <b-row>
+                                <b-col align-self="center">
+                                  <div class="circle">
+                                    <div class="circle__inner">
+                                      <div class="circle__wrapper">
+                                        <div class="circle__content">
+                                          <p class="data-id">{{item.id}}</p>
+                                        </div>
                                       </div>
                                     </div>
                                   </div>
-                                </div>
-                              </b-col>
-                              <b-col cols="9">
-                                <p class="data-name">{{item.first_name}} {{item.last_name}}</p>
-                                <p class="data-company">{{item.company}}</p>
-                                <p class="data-tel">{{item.phone1}} / {{item.phone2}}</p>
-                              </b-col>
-                              <b-col cols="1">
-                                <div>
-                                  <input
-                                    class="checkbox-right"
-                                    type="checkbox"
-                                    :value="item"
-                                    v-model="selected2"
-                                  >
-                                </div>
-                              </b-col>
-                            </b-row>
-                          </b-card>
+                                </b-col>
+                                <b-col cols="9">
+                                  <p class="data-name">{{item.first_name}} {{item.last_name}}</p>
+                                  <p class="data-company">{{item.company}}</p>
+                                  <p class="data-tel">{{item.phone1}} / {{item.phone2}}</p>
+                                </b-col>
+                                <b-col cols="1">
+                                  <div>
+                                    <input
+                                      class="checkbox-right"
+                                      type="checkbox"
+                                      :value="item"
+                                      v-model="selected2"
+                                    />
+                                  </div>
+                                </b-col>
+                              </b-row>
+                            </b-card>
+                          </label>
                         </b-col>
                       </b-row>
                     </div>
@@ -251,6 +400,7 @@ import VModal from "vue-js-modal";
 import * as animationData from "../../../public/lottie/blueTick.json";
 import Lottie from "vue-lottie";
 import { ServerTable, ClientTable, Event } from "vue-tables-2";
+import { parse } from "path";
 
 var publicPath = process.env.BASE_URL;
 animationData.assets.forEach(item => {
@@ -267,9 +417,17 @@ export default {
   },
   data() {
     return {
+      selectedItems: "",
+      isClicked: [],
+      activeItemId: "",
       isModalVisible: false,
       data: [],
+      inUse: false,
       loading: false,
+      idOrder: true,
+      fnOrder: true,
+      lnOrder: true,
+      comOrder: true,
       value: [],
       extra: [],
       saved: [],
@@ -311,13 +469,117 @@ export default {
       }, 3000);
     },
 
+    getPackage(data) {
+      this.activeItemId = data[1];
+    },
+
+    idDescend() {
+      if (this.idOrder === true) {
+        var test = this.data;
+        // var descend = this.data.sort((a, b) => (a.id - b.id) ? 1: -1)
+
+        var test = _.sortBy(this.data, ["id"]).reverse();
+
+        this.data = test;
+        this.idOrder = false;
+      }
+    },
+
+    idAscend() {
+      if (this.idOrder === false) {
+        this.idOrder = true;
+
+        var test = this.data;
+        // var descend = this.data.sort((a, b) => (a.id - b.id) ? 1: -1)
+
+        var test = _.sortBy(this.data, ["id"]);
+        this.data = test;
+      }
+    },
+
+    fnDescend() {
+      if (this.fnOrder === true) {
+        var test = this.data;
+        // var descend = this.data.sort((a, b) => (a.id - b.id) ? 1: -1)
+
+        var test = _.sortBy(this.data, ["first_name"]).reverse();
+
+        this.data = test;
+        this.fnOrder = false;
+      }
+    },
+
+    fnAscend() {
+      if (this.fnOrder === false) {
+        this.fnOrder = true;
+
+        var test = this.data;
+        // var descend = this.data.sort((a, b) => (a.id - b.id) ? 1: -1)
+
+        var test = _.sortBy(this.data, ["first_name"]);
+        this.data = test;
+        this.fnOrder = true;
+      }
+    },
+
+    lnDescend() {
+      if (this.lnOrder === true) {
+        var test = this.data;
+        // var descend = this.data.sort((a, b) => (a.id - b.id) ? 1: -1)
+
+        var test = _.sortBy(this.data, ["first_name"]).reverse();
+
+        this.data = test;
+        this.lnOrder = false;
+      }
+    },
+
+    lnAscend() {
+      if (this.lnOrder === false) {
+        this.lnOrder = true;
+
+        var test = this.data;
+        // var descend = this.data.sort((a, b) => (a.id - b.id) ? 1: -1)
+
+        var test = _.sortBy(this.data, ["first_name"]);
+        this.data = test;
+        this.lnOrder = true;
+      }
+    },
+
+        comDescend() {
+      if (this.comOrder === true) {
+        var test = this.data;
+        // var descend = this.data.sort((a, b) => (a.id - b.id) ? 1: -1)
+
+        var test = _.sortBy(this.data, ["first_name"]).reverse();
+
+        this.data = test;
+        this.comOrder = false;
+      }
+    },
+
+    comAscend() {
+      if (this.comOrder === false) {
+        this.comOrder = true;
+
+        var test = this.data;
+        // var descend = this.data.sort((a, b) => (a.id - b.id) ? 1: -1)
+
+        var test = _.sortBy(this.data, ["first_name"]);
+        this.data = test;
+        this.comOrder = true;
+      }
+    },
+
+
     open() {
       this.$alert(
         "Complete and Save Route Reordering for EAST A ?",
         "Confirm Submission",
         {
           showCancelButton: true,
-          cancelButtonText: 'Cancel',
+          cancelButtonText: "Cancel",
           confirmButtonText: "YES",
           callback: action => {
             axios
@@ -360,13 +622,17 @@ export default {
       console.log(this.saved);
     },
 
+    clicked(index) {
+      // toggle the active class
+      this.$set(this.isClicked, index, !this.isClicked[index]);
+    },
+
     getRequest() {
-      this.loading = true;
+      // this.loading = true;
       axios
         .get("http://127.0.0.1:8000/customer")
         .then(response => {
           this.data = response.data.map(item => item);
-          console.log(this.data);
         })
         .catch(error => console.log(error));
     },
@@ -422,6 +688,8 @@ export default {
     }
   },
   mounted() {
+    this.data.forEach((item, index) => this.$set(this.isClicked, index, false));
+
     console.log("Component mounted.");
   },
 
@@ -454,26 +722,21 @@ export default {
 </script>
 
 <style scoped>
-
-.chevron-left-circle-outline{
+.chevron-left-circle-outline {
   color: #dbdbdb;
   font-size: 35px;
-
-
 }
 
-
-.chevron-right-circle-outline{
+.chevron-right-circle-outline {
   color: #dbdbdb;
   font-size: 35px;
-} 
-
+}
 
 .scroll-area {
   position: relative;
   margin: auto;
   display: inline-block;
-  height: 800px;
+  height: 750px;
   width: 100%;
   top: 0;
   bottom: 0;
@@ -483,7 +746,7 @@ export default {
   position: relative;
   margin: auto;
   display: inline-block;
-  height: 800px;
+  height: 750px;
   width: 100%;
   top: 0;
   bottom: 0;
@@ -501,6 +764,8 @@ export default {
 
 table {
   margin-top: 20px;
+  border-radius: 10px;
+  overflow: hidden;
 }
 
 .body {
@@ -523,7 +788,11 @@ table {
   height: 90%;
 
   width: 100%;
-  box-shadow: 0px 1px 8px #999;
+  box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.1);
+  -o-box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.1);
+  -ms-box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.1);
   margin-bottom: 5%;
   padding: 25px;
   z-index: 8;
@@ -540,33 +809,75 @@ table {
   margin-bottom: 5%;
   padding: 25px;
   background-color: #fff;
-  box-shadow: 0px 1px 8px #999;
+  box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.1);
+  -o-box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.1);
+  -ms-box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.1);
   z-index: 1;
 }
 
 .table-container {
   border-radius: 3px;
   z-index: 3;
-  box-shadow: 0px 1px 5px #999;
+  box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.1);
+  -o-box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.1);
+  -ms-box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.1);
 }
 .header_text {
   font-size: 18px;
 }
 
+.table-head {
+  box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.1);
+  -o-box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.1);
+  -ms-box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.1);
+}
+
+.checkbox {
+}
+
+.label {
+  display: block;
+  height: auto !important; /* for newer IE versions */
+  height: 100%; /* the only height-related attribute that IE6 does not ignore  */
+}
+
+input[type="checkbox"]:checked label.label {
+  box-shadow: 0 0 0 3px hotpink;
+}
+
+.checkbox-right {
+  display: none;
+}
+
+.label2 {
+  display: block;
+  height: auto !important; /* for newer IE versions */
+  height: 100%; /* the only height-related attribute that IE6 does not ignore  */
+  width: 100%;
+}
+tr {
+  height: 1px;
+}
 thead {
-  background: #1976d2;
+  background: #fff;
 }
 
 th {
-  color: #fff;
+  color: #1976d2;
 }
 
 td {
-  font-size: 16px;
+  font-size: 15px;
   color: #000c20;
-  line-height: 1.5;
+  line-height: 1.4;
   margin: 5px;
-  vertical-align: middle;
+  height: 100%;
 }
 
 .table-id {
@@ -637,7 +948,11 @@ td {
 
 .item-body {
   border-radius: 10px;
-  box-shadow: 0px 0.5px 3px #999;
+  box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.1);
+  -o-box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.1);
+  -ms-box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.1);
   margin-top: 2%;
   background-color: #fff;
   width: 95%;
@@ -682,10 +997,9 @@ td {
 }
 
 .btn-finish {
-  /* position: absolute;
-    top: 5%;
-    left: 50%;
-    right: 0; */
+  border-radius: 20px;
+  background-color: #1976d2;
+  border-color: #1976d2;
 }
 
 .badge-right {
@@ -721,14 +1035,22 @@ td {
 .card-top {
   background-color: #fff;
   border-radius: 5px;
-  box-shadow: 0px 1px 2px #dbdbdb;
+  box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.1);
+  -o-box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.1);
+  -ms-box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.1);
 }
 
 .card-bottom {
   background-color: #fff;
   border-radius: 5px;
   padding-right: -100px;
-  box-shadow: 0px 1px 2px #dbdbdb;
+  box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.1);
+  -o-box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.1);
+  -ms-box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.1);
 }
 
 .card-top h3 {
@@ -869,6 +1191,14 @@ td {
   color: #000c20;
   margin-top: 5%;
   font-size: 20px;
+}
+
+.active {
+  background: #fafafa;
+}
+
+.btn-active {
+  width: 100%;
 }
 </style>
 

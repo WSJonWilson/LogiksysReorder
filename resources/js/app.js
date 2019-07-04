@@ -20,6 +20,8 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import Drag from "vue-material-design-icons/Drag.vue"
 import ChevronLeftCircleOutline from "vue-material-design-icons/ChevronLeftCircleOutline.vue"
 import ChevronRightCircleOutline from "vue-material-design-icons/ChevronRightCircleOutline.vue"
+import ArrowUpCircleOutline from "vue-material-design-icons/ArrowUpCircleOutline"
+import ArrowDownCircleOutline from "vue-material-design-icons/ArrowDownCircleOutline"
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 import "vue-material-design-icons/styles.css"
@@ -30,6 +32,8 @@ Vue.component("drag-icon", Drag)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.component('chevron-left-circle-outline', ChevronLeftCircleOutline)
 Vue.component('chevron-right-circle-outline', ChevronRightCircleOutline)
+Vue.component('arrow-up-circle-outline', ArrowUpCircleOutline)
+Vue.component('arrow-down-circle-outline', ArrowDownCircleOutline)
 
 Vue.use(Vuetify)
 Vue.use(VModal)
