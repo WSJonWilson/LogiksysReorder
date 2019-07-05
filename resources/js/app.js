@@ -22,6 +22,10 @@ import ChevronLeftCircleOutline from "vue-material-design-icons/ChevronLeftCircl
 import ChevronRightCircleOutline from "vue-material-design-icons/ChevronRightCircleOutline.vue"
 import ArrowUpCircleOutline from "vue-material-design-icons/ArrowUpCircleOutline"
 import ArrowDownCircleOutline from "vue-material-design-icons/ArrowDownCircleOutline"
+import HomeMapMarker from "vue-material-design-icons/HomeMapMarker"
+import TimerSand from "vue-material-design-icons/TimerSand"
+import FormatListChecks from "vue-material-design-icons/FormatListChecks"
+import ArrowUpCircle from "vue-material-design-icons/ArrowUpCircle"
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 import "vue-material-design-icons/styles.css"
@@ -34,7 +38,10 @@ Vue.component('chevron-left-circle-outline', ChevronLeftCircleOutline)
 Vue.component('chevron-right-circle-outline', ChevronRightCircleOutline)
 Vue.component('arrow-up-circle-outline', ArrowUpCircleOutline)
 Vue.component('arrow-down-circle-outline', ArrowDownCircleOutline)
-
+Vue.component('home-map-marker', HomeMapMarker)
+Vue.component('timer-sand', TimerSand)
+Vue.component('format-list-checks', FormatListChecks)
+Vue.component('arrow-up-circle', ArrowUpCircle)
 Vue.use(Vuetify)
 Vue.use(VModal)
 Vue.use(BackToTop)

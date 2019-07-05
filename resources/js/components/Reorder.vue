@@ -42,14 +42,8 @@
             </b-col>
           </b-row>
 
-          <div class="row justify-content-center">
-            <vue-custom-scrollbar
-              class="scroll-area"
-              :settings="settings"
-              @ps-scroll-y="scrollHanle"
-            >
-              <template v-if="filteredData != 0">
-                <table class="table table-head">
+          <b-row>
+             <table class="table table-head">
                   <thead class="thead table-hover">
                     <tr>
                       <th scope="col">
@@ -139,7 +133,7 @@
                               <arrow-down-circle-outline
                                 class="ln-Down"
                                 style="color: #999"
-                                @click="lnDescend"
+                            @click="lnDescend"
                               />
                             </template>
                           </b-col>
@@ -170,6 +164,16 @@
                     </tr>
                   </thead>
                 </table>
+          </b-row>
+
+          <div class="row justify-content-center">
+            <vue-custom-scrollbar
+              class="scroll-area"
+              :settings="settings"
+              @ps-scroll-y="scrollHanle"
+            >
+              <template v-if="filteredData != 0">
+               
                 <table class="table">
                   <draggable v-model="data" :options="{group:'clothes'}" tag="tbody">
                     <tr v-for="(item, index) in filteredData" :key="index">
@@ -181,14 +185,14 @@
                         <label class="label" for="checkbox">
                           <b-row>
                             <td>
-                              <input
+                              <input style="margin-left: 10px;"
                                 class="checkbox"
                                 type="checkbox"
                                 :value="item"
                                 v-model="selected"
                               />
                             </td>
-                            <b-col style="margin-left: 70px;  margin-right: -65px;">
+                            <b-col style="margin-left: 20px;  margin-right: -80px;">
                               <td class="table-id">{{ item.id }}</td>
                             </b-col>
                             <b-col>
@@ -297,9 +301,14 @@
       </b-col>
       <b-col class="end" cols="5">
         <b-container class="bv-example-row container2">
-          <div class="badge-right">
+          <div class="badge-right" >
             <h3>{{ saved.length }}</h3>
             <h3>Left</h3>
+          </div>
+          <div class="badge-right2" @click="toTop">
+            <arrow-up-circle style="color: white; font-size: 30px" />
+                        <h3>Top</h3>
+
           </div>
           <b-row>
             <b-col>
@@ -314,16 +323,42 @@
               <font-awesome-icon icon="ellipsis-v" class="icon-settings" />
             </b-col>
           </b-row>
+
+                    <b-row 
+                   style="box-shadow: 0 0px 5px 0px rgba(0, 0, 0, 0.1);
+                -moz-box-shadow: 0 0px 5px 0px rgba(0, 0, 0, 0.1);
+                -webkit-box-shadow: 0 0px 5px 0px rgba(0, 0, 0, 0.1);
+                -o-box-shadow: 0 0px 5px 0px rgba(0, 0, 0, 0.1);
+                -ms-box-shadow: 0 0px 5px 0px rgba(0, 0, 0, 0.1);
+                padding:5px 20px;
+                width: 100%">
+            <b-col>
+                
+                <input  style="margin-left: -25px; margin-right: 60px;" type="checkbox" v-model="selectAll2" @click="select2" />
+              
+              <home-map-marker class="homeicon" style="font-size: 30px; color: #1976d2"/> 
+            </b-col>
+            <b-col class="text-center">
+              <format-list-checks style="font-size: 30px; color: #dbdbdb"/>
+            </b-col>
+            <b-col class="text-center">
+                            <timer-sand style="font-size: 30px; color: #dbdbdb"/>
+
+            </b-col>
+          </b-row>
+          
+
+
+
+
           <vue-custom-scrollbar
             class="scroll-area2"
             :settings="settings"
             @ps-scroll-y="scrollHanle"
           >
             <b-row>
-              <b-col cols="1">
-                <input type="checkbox" v-model="selectAll2" @click="select2" />
-              </b-col>
-              <b-col cols="10">
+            
+              <b-col cols="11">
                 <draggable v-model="saved" :options="{group:'clothes1'}">
                   <template v-if="saved != 0">
                     <div v-for="item in filteredSavedData" v-bind:key="item.id">
@@ -736,7 +771,7 @@ export default {
   position: relative;
   margin: auto;
   display: inline-block;
-  height: 750px;
+  height: 680px;
   width: 100%;
   top: 0;
   bottom: 0;
@@ -746,7 +781,7 @@ export default {
   position: relative;
   margin: auto;
   display: inline-block;
-  height: 750px;
+  height: 700px;
   width: 100%;
   top: 0;
   bottom: 0;
@@ -1018,6 +1053,24 @@ td {
   color: #fff;
 }
 
+
+.badge-right2 {
+  background-color: #03a9f4;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  position: absolute;
+  top: 60%;
+  right: 2%;
+  text-align: center;
+  padding: 10px;
+}
+
+.badge-right2 h3 {
+  font-size: 18px;
+  color: #fff;
+}
+
+
 .counter-bottom {
   position: absolute;
   left: 0;
@@ -1198,6 +1251,11 @@ td {
 }
 
 .btn-active {
+  width: 100%;
+}
+
+.navigation{
+  background-color: red;
   width: 100%;
 }
 </style>
